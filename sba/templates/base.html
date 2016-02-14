@@ -1,35 +1,74 @@
-{% load static wagtailuserbar %}
+{% load static wagtailuserbar wagtailcore_tags sba_tags %}
 
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
-    <head>
-        <meta charset="utf-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>{% block title %}{% if self.seo_title %}{{ self.seo_title }}{% else %}{{ self.title }}{% endif %}{% endblock %}{% block title_suffix %}{% endblock %}</title>
-        <meta name="description" content="" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>{% block title %}{% if self.seo_title %}{{ self.seo_title }}{% else %}{{ self.title }}{% endif %}{% endblock %}{% block title_suffix %}{% endblock %}</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        {# Global stylesheets #}
-        <link rel="stylesheet" type="text/css" href="{% static 'css/sba.css' %}">
+    {# Global stylesheets #}
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/sba.css' %}">
 
-        {% block extra_css %}
-            {# Override this in templates to add extra stylesheets #}
-        {% endblock %}
-    </head>
+    {% block extra_css %}
+      {# Override this in templates to add extra stylesheets #}
+    {% endblock %}
+  </head>
 
-    <body class="{% block body_class %}{% endblock %}">
-        {% wagtailuserbar %}
+  <body class="{% block body_class %}{% endblock %}">
+    {% wagtailuserbar %}
 
-        {% block content %}{% endblock %}
+    <nav class="navbar navbar-default navbar-static-top">
+      <div class="container">
 
-        {# Global javascript #}
-        <script type="text/javascript" src="{% static 'js/sba.js' %}"></script>
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a href="/" class="navbar-brand">SBA</a>
+        </div><!-- .navbar-header -->
 
-        {% block extra_js %}
-            {# Override this in templates to add extra javascript #}
-        {% endblock %}
-    </body>
+        <div class="collapse navbar-collapse" id="navbar-collapse">
+          {% block menu %}
+            {% get_site_root as site_root %}
+            {% top_menu parent=site_root calling_page=self %}
+          {% endblock %}
+        </div><!-- .navbar-collapse -->
+
+      </div><!-- .container-fluid -->
+    </nav><!-- .navbar -->
+
+    <div class="container">
+      {% if self.get_ancestors|length > 1 %}
+        <ol class="breadcrumb">
+          {% for page in self.get_ancestors %}
+            {% if page.is_root == False %}
+              <li><a href="{% pageurl page %}">{{ page.title }}</a></li>
+            {% endif %}
+          {% endfor %}
+          <li class="active">{{ self.title }}</li>
+        </ol>
+      {% endif %}
+      {% block content %}{% endblock %}
+    </div>
+
+    {# Global javascript #}
+    <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="{% static 'js/sba.js' %}"></script>
+
+    {% block extra_js %}
+      {# Override this in templates to add extra javascript #}
+    {% endblock %}
+  </body>
 </html>

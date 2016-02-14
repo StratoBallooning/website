@@ -24,7 +24,7 @@ class BlogPage(Page):
     )
     body = StreamField([
         ('heading', blocks.CharBlock(classname='full title', icon='title')),
-        ('paragraph', blocks.RichTextBlock(icon='doc-full')),
+        ('paragraph', blocks.RichTextBlock(icon='pilcrow')),
         ('image', ImageChooserBlock(icon='image')),
     ])
 

@@ -1,15 +1,38 @@
 {% extends "base.html" %}
 
-{% load wagtailcore_tags %}
+{% load wagtailcore_tags wagtailimages_tags %}
 
 {% block body_class %}template-blogindexpage{% endblock %}
 
 {% block content %}
-  <h1>{{ page.title}}</h1>
+  <div class="page-header">
+    <h1>
+      {{ page.title}}
+      {% if page.subtitle %}
+        <small>
+          {{ page.subtitle }}
+        </small>
+      {% endif %}
+    </h1>
+  </div>
 
   <div class="intro">{{ page.intro|richtext }}</div>
 
-  {% for blog in blogs %}
-    {% include "blog/includes/blog_list_item.html" %}
-  {% endfor %}
+  <ul class="media-list">
+    {% for blog in blogs %}
+      <li class="media">
+        <div class="media-left">
+          <a href="{% pageurl blog %}">
+            {% image blog.feed_image fill-80x80 class="img-rounded" %}
+          </a>
+        </div>
+        <div class="media-body">
+          <a href="{% pageurl blog %}">
+            <h4 class="media-heading">{{ blog.title }}</h4>
+          </a>
+          <p>{{ blog.intro }}</p>
+        </div>
+      </li>
+    {% endfor %}
+  </ul>
 {% endblock %}

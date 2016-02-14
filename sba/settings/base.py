@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'home',
     'search',
     'blog',
+    'sba',
 
     'wagtail.wagtailforms',
     'wagtail.wagtailredirects',
