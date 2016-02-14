@@ -14,7 +14,7 @@ from wagtail.wagtailsearch import index
 class BlogPage(Page):
     subtitle = models.CharField(max_length=100, blank=True)
     date = models.DateField('Post Date')
-    intro = models.CharField(max_length=250)
+    intro = models.CharField(max_length=250, blank=True)
     feed_image = models.ForeignKey(
         'wagtailimages.Image',
         null=True,
