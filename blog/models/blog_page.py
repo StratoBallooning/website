@@ -12,6 +12,7 @@ from wagtail.wagtailsearch import index
 
 
 class BlogPage(Page):
+    subtitle = models.CharField(max_length=100, blank=True)
     date = models.DateField('Post Date')
     intro = models.CharField(max_length=250)
     feed_image = models.ForeignKey(
@@ -32,6 +33,7 @@ class BlogPage(Page):
     )
 
     content_panels = Page.content_panels + [
+        FieldPanel('subtitle'),
         FieldPanel('date'),
         StreamFieldPanel('body'),
     ]
