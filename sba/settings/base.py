@@ -26,6 +26,7 @@ BASE_DIR = os.path.dirname(PROJECT_DIR)
 INSTALLED_APPS = [
     'home',
     'search',
+    'blog',
 
     'wagtail.wagtailforms',
     'wagtail.wagtailredirects',
@@ -38,6 +39,7 @@ INSTALLED_APPS = [
     'wagtail.wagtailsearch',
     'wagtail.wagtailadmin',
     'wagtail.wagtailcore',
+    'wagtail.contrib.wagtailstyleguide',
 
     'modelcluster',
     'compressor',
@@ -137,4 +139,4 @@ MEDIA_URL = '/media/'
 
 # Wagtail settings
 
-WAGTAIL_SITE_NAME = "sba"
+WAGTAIL_SITE_NAME = "Stratospheric Ballooning Association"
