@@ -6,6 +6,7 @@ from wagtail.wagtailcore.models import Page
 from wagtail.wagtailcore.fields import StreamField
 from wagtail.wagtailcore import blocks
 from wagtail.wagtailimages.blocks import ImageChooserBlock
+from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
 from wagtail.wagtailadmin.edit_handlers import FieldPanel, StreamFieldPanel
 from wagtail.wagtailsearch import index
 
@@ -13,6 +14,13 @@ from wagtail.wagtailsearch import index
 class BlogPage(Page):
     date = models.DateField('Post Date')
     intro = models.CharField(max_length=250)
+    feed_image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+    )
     body = StreamField([
         ('heading', blocks.CharBlock(classname='full title', icon='title')),
         ('paragraph', blocks.RichTextBlock(icon='doc-full')),
@@ -25,8 +33,12 @@ class BlogPage(Page):
 
     content_panels = Page.content_panels + [
         FieldPanel('date'),
-        FieldPanel('intro'),
         StreamFieldPanel('body'),
+    ]
+
+    promote_panels = Page.promote_panels + [
+        ImageChooserPanel('feed_image'),
+        FieldPanel('intro'),
     ]
 
     parent_page_types = ['blog.BlogIndexPage']
