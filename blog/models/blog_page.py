@@ -7,7 +7,7 @@ from wagtail.wagtailcore.fields import StreamField
 from wagtail.wagtailcore import blocks
 from wagtail.wagtailimages.blocks import ImageChooserBlock
 from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
-from wagtail.wagtailadmin.edit_handlers import FieldPanel, StreamFieldPanel
+from wagtail.wagtailadmin.edit_handlers import FieldPanel, StreamFieldPanel, InlinePanel
 from wagtail.wagtailsearch import index
 
 
@@ -35,6 +35,7 @@ class BlogPage(Page):
     content_panels = Page.content_panels + [
         FieldPanel('subtitle'),
         FieldPanel('date'),
+        InlinePanel('contributors', label='Contributors', min_num=1),
         StreamFieldPanel('body'),
     ]
 
