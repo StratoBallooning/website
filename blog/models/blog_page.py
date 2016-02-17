@@ -23,9 +23,9 @@ class BlogPage(Page):
         related_name='+',
     )
     body = StreamField([
-        ('heading', blocks.CharBlock(classname='full title', icon='title')),
+        ('heading', blocks.CharBlock(classname='full title', icon='title', template='blog/blocks/heading_block.html')),
         ('paragraph', blocks.RichTextBlock(icon='pilcrow')),
-        ('image', ImageChooserBlock(icon='image')),
+        ('image', ImageChooserBlock(icon='image', template='blog/blocks/image_block.html')),
     ])
 
     search_fields = Page.search_fields + (

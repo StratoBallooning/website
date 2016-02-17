@@ -1,0 +1,12 @@
+{% load wagtailimages_tags %}
+
+<figure>
+  <div class="panel panel-default">
+    <div class="panel-body">
+      {% image value width-1280 class="img-responsive" %}
+      <figcaption>
+        {{ value.title }}
+      </figcaption>
+    </div>
+  </div>
+</figure>
