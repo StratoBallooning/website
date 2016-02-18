@@ -9,12 +9,17 @@ from wagtail.wagtailimages.blocks import ImageChooserBlock
 from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
 from wagtail.wagtailadmin.edit_handlers import FieldPanel, StreamFieldPanel, InlinePanel
 from wagtail.wagtailsearch import index
+from modelcluster.contrib.taggit import ClusterTaggableManager
+
+from .blog_index_page import BlogIndexPage
+from .blog_page_tag import BlogPageTag
 
 
 class BlogPage(Page):
     subtitle = models.CharField(max_length=100, blank=True)
     date = models.DateField('Post Date')
     intro = models.CharField(max_length=250, blank=True)
+    tags = ClusterTaggableManager(through=BlogPageTag, blank=True)
     feed_image = models.ForeignKey(
         'wagtailimages.Image',
         null=True,
@@ -40,9 +45,14 @@ class BlogPage(Page):
     ]
 
     promote_panels = Page.promote_panels + [
+        FieldPanel('tags'),
         ImageChooserPanel('feed_image'),
         FieldPanel('intro'),
     ]
 
     parent_page_types = ['blog.BlogIndexPage']
     subpage_types = []
+
+    @property
+    def blog_index(self):
+        return self.get_ancestors().type(BlogIndexPage).last()

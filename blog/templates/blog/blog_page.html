@@ -18,7 +18,15 @@
           {% endif %}
         </h1>
       </div>
-      <p class="meta">{{ page.date }}</p>
+      <p class="meta">
+        Published {{ page.date }}
+        {% if page.tags.count %}
+          in
+          {% for tag in page.tags.all %}
+            <a href="{% pageurl page.blog_index %}?tag={{ tag }}">{{ tag }}</a>
+          {% endfor %}
+        {% endif %}
+      </p>
     </header>
 
     {{ page.body }}

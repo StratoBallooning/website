@@ -7,8 +7,6 @@ from wagtail.wagtailcore.fields import RichTextField
 from wagtail.wagtailadmin.edit_handlers import FieldPanel
 from wagtail.wagtailsearch import index
 
-from blog.models.blog_page import BlogPage
-
 
 class BlogIndexPage(Page):
     intro = RichTextField(blank=True)
@@ -23,6 +21,7 @@ class BlogIndexPage(Page):
 
     @property
     def blogs(self):
+        from .blog_page import BlogPage
         blogs = BlogPage.objects.live().descendant_of(self)
         blogs = blogs.order_by('-date')
 
@@ -30,6 +29,11 @@ class BlogIndexPage(Page):
 
     def get_context(self, request):
         blogs = self.blogs
+
+        # Filter by tag
+        tag = request.GET.get('tag')
+        if tag:
+            blogs = blogs.filter(tags__name=tag)
 
         context = super(BlogIndexPage, self).get_context(request)
         context['blogs'] = blogs

@@ -18,6 +18,13 @@
 
   <div class="intro">{{ page.intro|richtext }}</div>
 
+  <h4>
+    Posts
+    {% if request.GET.tag|length %}
+      tagged as {{ request.GET.tag|safe }}
+      <a href="{% pageurl self %}">Show All</a>
+    {% endif %}
+  </h4>
   <ul class="media-list">
     {% for blog in blogs %}
       <li class="media">
