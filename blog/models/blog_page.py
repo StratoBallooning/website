@@ -1,4 +1,5 @@
 from __future__ import unicode_literals
+import operator
 
 from django.db import models
 
@@ -56,3 +57,22 @@ class BlogPage(Page):
     @property
     def blog_index(self):
         return self.get_ancestors().type(BlogIndexPage).last()
+
+    @property
+    def related_pages(self):
+        # Construct filter object
+        filter_set = reduce(operator.or_, (models.Q(tags=x) for x in self.tags.all()))
+        # Get live pages that match the filter
+        pages = BlogPage.objects.filter(filter_set).live().distinct()
+        # Exclude the current page
+        pages = pages.exclude(id=self.id)
+        # Randomize and limit
+        pages = pages.order_by('?')[:5]
+
+        return pages
+
+    def get_context(self, request):
+        context = super(BlogPage, self).get_context(request)
+        context['related_pages'] = self.related_pages
+
+        return context

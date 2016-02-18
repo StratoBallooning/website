@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% load wagtailcore_tags gravatar %}
+{% load wagtailcore_tags wagtailimages_tags gravatar %}
 
 {% block body_class %}template-blogpage{% endblock %}
 
@@ -33,6 +33,7 @@
 
     <footer>
       <div class="row">
+
         <div class="col-md-5">
           <h4>Contributors</h4>
           <ul class="media-list">
@@ -53,6 +54,32 @@
             {% endfor %}
           </ul>
         </div>
+
+        <div class="col-md-7">
+          <h4>Related Pages</h4>
+          <ul class="media-list">
+            {% for related_page in page.related_pages %}
+              <li class="media panel panel-default">
+                <div class="panel-body">
+                  <div class="media-left">
+                    <a href="{% pageurl related_page %}">
+                      {% image related_page.feed_image fill-80x80 class="img-rounded" %}
+                    </a>
+                  </div>
+                  <div class="media-body">
+                    <a href="{% pageurl related_page %}">
+                      <h4 class="media-heading">
+                        {{ related_page.title }}
+                      </h4>
+                    </a>
+                    <p>{{ related_page.intro }}</p>
+                  </div>
+                </div>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+
       </div>
     </footer>
 
