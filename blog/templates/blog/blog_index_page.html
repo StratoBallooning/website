@@ -25,6 +25,12 @@
       <a href="{% pageurl self %}">Show All</a>
     {% endif %}
   </h4>
+  <p>
+    Filter by:
+    {% for tag in tags %}
+      <a href="?tag={{ tag }}">{{ tag }} ({{ tag.pages }})</a>{% if not forloop.last %},{% endif %}
+    {% endfor %}
+  </p>
   <ul class="media-list">
     {% for blog in blogs %}
       <li class="media">

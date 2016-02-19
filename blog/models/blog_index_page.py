@@ -7,6 +7,7 @@ from wagtail.wagtailcore.models import Page
 from wagtail.wagtailcore.fields import RichTextField
 from wagtail.wagtailadmin.edit_handlers import FieldPanel
 from wagtail.wagtailsearch import index
+from taggit.models import Tag
 
 
 class BlogIndexPage(Page):
@@ -29,12 +30,18 @@ class BlogIndexPage(Page):
         return blogs
 
     def get_context(self, request):
+        context = super(BlogIndexPage, self).get_context(request)
+
+        # Get base blog queryset
         blogs = self.blogs
 
         # Filter by tag
         tag = request.GET.get('tag')
         if tag:
             blogs = blogs.filter(tags__name=tag)
+
+        # Add tags to context
+        context['tags'] = Tag.objects.annotate(pages=models.Count('blogpage')).filter(pages__gte=1)
 
         # Pagination
         page = request.GET.get('page')
@@ -46,7 +53,7 @@ class BlogIndexPage(Page):
         except EmptyPage:
             blogs = paginator.page(paginator.num_pages)
 
-        context = super(BlogIndexPage, self).get_context(request)
+        # Set blogs on context object
         context['blogs'] = blogs
 
         return context
