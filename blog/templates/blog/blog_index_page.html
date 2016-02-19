@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% load wagtailcore_tags wagtailimages_tags %}
+{% load wagtailcore_tags wagtailimages_tags paginator %}
 
 {% block body_class %}template-blogindexpage{% endblock %}
 
@@ -42,4 +42,5 @@
       </li>
     {% endfor %}
   </ul>
+  {% paginator blogs query_params=request.GET %}
 {% endblock %}

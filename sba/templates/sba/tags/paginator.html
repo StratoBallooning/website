@@ -1,0 +1,66 @@
+<nav>
+  <ul class="pagination">
+
+    {% if model.has_previous %}
+      <li>
+        <a href="?page={{ model.previous_page_number }}{{ querystring }}">
+    {% else %}
+      <li class="disabled">
+        <a href="#">
+    {% endif %}
+        &laquo;
+      </a>
+    </li>
+
+    {% if show_first %}
+      <li>
+        <a href="?page=1{{ querystring }}">
+          1
+        </a>
+      </li>
+      <li class="disabled">
+        <a href="#">
+          ...
+        </a>
+      </li>
+    {% endif %}
+
+    {% for page in pages %}
+      {% if page == model.number %}
+        <li class="active">
+          <a href="#">
+      {% else %}
+        <li>
+          <a href="?page={{ page }}{{ querystring }}">
+      {% endif %}
+          {{ page }}
+        </a>
+      </li>
+    {% endfor %}
+
+    {% if show_last %}
+      <li class="disabled">
+        <a href="#">
+          ...
+        </a>
+      </li>
+      <li>
+        <a href="?page={{ last }}{{ querystring }}">
+          {{ last }}
+        </a>
+      </li>
+    {% endif %}
+
+    {% if model.has_next %}
+      <li>
+        <a href="?page={{ model.next_page_number }}{{ querystring }}">
+    {% else %}
+      <li class="disabled">
+        <a href="#">
+    {% endif %}
+        &raquo;
+      </a>
+    </li>
+
+  </ul>
+</nav>
