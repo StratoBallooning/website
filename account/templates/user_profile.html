@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% load wagtailcore_tags wagtailimages_tags gravatar %}
+
+{% block title %}SBA - {{ user.username }}{% endblock %}
+
+{% block content %}
+
+<div class="row">
+
+  <div class="col-md-4">
+    <img class="img-rounded img-responsive" src="{% gravatar_url user.email 256 %}" />
+    <h2>
+      {{ user.first_name }} {{ user.last_name }}<br/>
+      <small>
+        {{ user.username }}
+      </small>
+    </h2>
+    {{ user.user_profile.title }}
+    {% if user.user_profile.title and user.user_profile.organization %}
+      at
+    {% endif %}
+    {{ user.user_profile.organization }}
+    {% if user.user_profile.website %}
+      <a href="{{ user.user_profile.website }}">
+        {{ user.user_profile.website }}
+      </a>
+    {% endif %}
+  </div><!-- .col-md-4 -->
+
+  <div class="col-md-8">
+    {% if user.authored_blogs.count %}
+      <h2>Contributed Posts</h2>
+      <ul class="media-list">
+        {% for blog in user.authored_blogs.all %}
+          <li class="media panel panel-default">
+            <div class="panel-body">
+              <div class="media-left">
+                <a href="{% pageurl blog.blog_page %}">
+                  {% image blog.blog_page.feed_image fill-80x80 class="img-rounded" %}
+                </a>
+              </div>
+              <div class="media-body">
+                <a href="{% pageurl blog.blog_page %}">
+                  <h4 class="media-heading">
+                    {{ blog.blog_page.title }}
+                  </h4>
+                </a>
+                <p>{{ blog.blog_page.intro }}</p>
+              </div>
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  </div><!-- .col-md-8 -->
+
+</div>
+
+{% endblock %}

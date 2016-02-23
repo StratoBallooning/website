@@ -10,7 +10,7 @@ from modelcluster.fields import ParentalKey
 
 class BlogPageAuthor(Orderable, models.Model):
     blog_page = ParentalKey('BlogPage', related_name='contributors')
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User, related_name='authored_blogs')
     role = models.CharField(max_length=64, default='Author')
 
     panels = [

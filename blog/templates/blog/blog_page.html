@@ -41,11 +41,15 @@
               <li class="media panel panel-default author">
                 <div class="panel-body">
                   <div class="media-left">
-                    <img class="img-rounded" src="{% gravatar_url contributor.user.email 40 %}" />
+                    <a href="{% url "user-profile" contributor.user %}">
+                      <img class="img-rounded" src="{% gravatar_url contributor.user.email 40 %}" />
+                    </a>
                   </div>
                   <div class="media-body">
                     <h4 class="media-heading">
-                      {{ contributor.user.first_name }} {{ contributor.user.last_name }}
+                      <a href="{% url "user-profile" contributor.user %}">
+                        {{ contributor.user.first_name }} {{ contributor.user.last_name }}
+                      </a>
                     </h4>
                     <span class="author-title">
                       {{ contributor.user.user_profile.title }}
