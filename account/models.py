@@ -7,7 +7,7 @@ from django.conf import settings
 
 class UserProfile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='user_profile')
-    position = models.CharField(max_length=100, blank=True)
+    title = models.CharField(max_length=100, blank=True)
     organization = models.CharField(max_length=100, blank=True)
     website = models.URLField(blank=True)
 

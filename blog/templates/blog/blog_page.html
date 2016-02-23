@@ -38,7 +38,7 @@
           <h4>Contributors</h4>
           <ul class="media-list">
             {% for contributor in page.contributors.all %}
-              <li class="media panel panel-default">
+              <li class="media panel panel-default author">
                 <div class="panel-body">
                   <div class="media-left">
                     <img class="img-rounded" src="{% gravatar_url contributor.user.email 40 %}" />
@@ -47,7 +47,22 @@
                     <h4 class="media-heading">
                       {{ contributor.user.first_name }} {{ contributor.user.last_name }}
                     </h4>
-                    {{ contributor.position }}
+                    <span class="author-title">
+                      {{ contributor.user.user_profile.title }}
+                      {% if contributor.user.user_profile.title and contributor.user.user_profile.organization %}
+                        at
+                      {% endif %}
+                      {% if contributor.user.user_profile.website %}
+                        <a href="{{ contributor.user.user_profile.website }}">
+                          {{ contributor.user.user_profile.organization }}
+                        </a>
+                      {% else %}
+                        {{ contributor.user.user_profile.organization }}
+                      {% endif %}
+                    </span>
+                    <span class="author-role">
+                      {{ contributor.role }}
+                    </span>
                   </div>
                 </div>
               </li>

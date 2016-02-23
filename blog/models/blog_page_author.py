@@ -11,7 +11,7 @@ from modelcluster.fields import ParentalKey
 class BlogPageAuthor(Orderable, models.Model):
     blog_page = ParentalKey('BlogPage', related_name='contributors')
     user = models.ForeignKey(User)
-    position = models.CharField(max_length=64, default='Author')
+    role = models.CharField(max_length=64, default='Author')
 
     panels = [
         FieldPanel('user'),

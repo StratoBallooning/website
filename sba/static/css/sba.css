@@ -2,6 +2,14 @@
   top: 100px;
 }
 
+.author-title {
+  display: block;
+}
+
+.author-role {
+  display: block;
+}
+
 .site-footer {
   margin-top: 10px;
   text-align: center;
